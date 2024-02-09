@@ -1,0 +1,18 @@
+0011 0000 0000 0000   ; Start the program at x3000
+0010 001 011111111    ; x3000: Load the number stored in x3100 to R1
+0101 010 001 1 00001  ; x3001: Calculate the parity of R1 by AND 1 to R2
+0000 001 000000010    ; x3002: If R2 > 0 (which must be 1 meaning R1 is odd), then jump to x3005
+1001 001 001 111111   ; x3003: Calculate -R1: First calculate ~R1 to R1
+0001 001 001 1 00001  ; x3004: Then add R1 with 1
+0101 010 010 1 00000  ; x3005: Clear R2 by AND 0
+1001 001 001 111111   ; x3006: Calculate ~R1 to R1, in order to count the number of 1s instead of 0s
+0001 010 010 1 00001  ; x3007: Add R2 with 1
+0001 011 001 1 11111  ; x3008: Calculate R1-1 to R3
+0101 001 001 0 00 011 ; x3009: Calculate R1 AND R3 (i.e. R1 AND (R1 - 1)) to R1
+0000 101 111111100    ; x300A: If R1 not equal to 0 then jump to x3007
+0101 011 011 1 00000  ; x300B: Reset R3 to 0
+0001 011 011 1 00111  ; x300C: Set R3 to 7 which is the last number of my student ID
+0001 010 010 0 00 011 ; x300D: Add R2 (which stores the result) with R3
+0011 011 011110010    ; x300E: Store R3 to x3101
+0011 010 011110010    ; x300F: Store R2 to x3102
+1111 0000 00100101    ; x3010: Halt
